@@ -3,8 +3,13 @@ const { join } = require('node:path');
 const server = require('http');
 const { Server } = require('socket.io');
 const requestIp = require('request-ip');
-
 const app = express();
+
+let ip = "";
+let ipv4 = "";
+let ipv6 = "";
+
+
 app.use(express.static(join(__dirname, 'build')));
 
 app.use(requestIp.mw());
@@ -19,6 +24,7 @@ app.get('/get-ip', (req, res) => {
 
 
    let ip = ""; 
+
     fetch('https://api.ipify.org?format=json')
         .then(response => response.json())
         .then(data => {
@@ -38,7 +44,19 @@ app.get('/get-ip', (req, res) => {
         .catch(error => {
             console.log('Error:', error);
         });
-    fetch('http://ip-api.com/json/'+ip+'?fields=66846719').then(response => response.json()).then(data => { console.log(data); }).catch(error => { console.log('Error:', error); });
+    fetch('http://ip-api.com/json/'+ip+'?fields=66846719').then(response => response.json()).then(data => { 
+        console.log(data);
+        // data.forEach(element => {
+        //     Object.entries(element).forEach(([key, value]) => {
+        //         console.log(`${key}: ${value}`);
+        //     });
+        // });
+      Object.entries(data).forEach(([key, value]) => {
+        console.log(`${key}: ${value}`);
+      });
+
+
+    }).catch(error => { console.log('Error:', error); });
 });
 // app.get('/', (req, res) => {
 //     res.sendFile(join(__dirname, 'public', 'index.html'));
