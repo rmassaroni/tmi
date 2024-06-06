@@ -46,11 +46,6 @@ app.get('/get-ip', (req, res) => {
         });
     fetch('http://ip-api.com/json/'+ip+'?fields=66846719').then(response => response.json()).then(data => { 
         console.log(data);
-        // data.forEach(element => {
-        //     Object.entries(element).forEach(([key, value]) => {
-        //         console.log(`${key}: ${value}`);
-        //     });
-        // });
       Object.entries(data).forEach(([key, value]) => {
         console.log(`${key}: ${value}`);
       });
