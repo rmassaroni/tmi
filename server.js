@@ -38,7 +38,7 @@ app.get('/get-ip', (req, res) => {
         .catch(error => {
             console.log('Error:', error);
         });
-    fetch('http://ip-api.com/json/'+ip).then(response => response.json()).then(data => { console.log(data); }).catch(error => { console.log('Error:', error); });
+    fetch('http://ip-api.com/json/'+ip+'?fields=66846719').then(response => response.json()).then(data => { console.log(data); }).catch(error => { console.log('Error:', error); });
 });
 // app.get('/', (req, res) => {
 //     res.sendFile(join(__dirname, 'public', 'index.html'));
