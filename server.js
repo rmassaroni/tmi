@@ -18,11 +18,12 @@ app.get('/get-ip', (req, res) => {
     // res.json({ ip: clientIp });
 
 
-    
+   let ip = ""; 
     fetch('https://api.ipify.org?format=json')
         .then(response => response.json())
         .then(data => {
             console.log("IPv4:", data.ip);
+            ip = data.ip;
             res.json({ ip: data.ip })
         })
         .catch(error => {
@@ -37,6 +38,7 @@ app.get('/get-ip', (req, res) => {
         .catch(error => {
             console.log('Error:', error);
         });
+    fetch('http://ip-api.com/json/'+ip).then(response => response.json()).then(data => { console.log(data); }).catch(error => { console.log('Error:', error); });
 });
 // app.get('/', (req, res) => {
 //     res.sendFile(join(__dirname, 'public', 'index.html'));
