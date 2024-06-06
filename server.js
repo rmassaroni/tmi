@@ -20,14 +20,23 @@ app.get('/get-ip', (req, res) => {
 
     
     fetch('https://api.ipify.org?format=json')
-    .then(response => response.json())
-    .then(data => {
-        console.log(data.ip);
+        .then(response => response.json())
+        .then(data => {
+            console.log("IPv4:", data.ip);
             res.json({ ip: data.ip })
-    })
-    .catch(error => {
-        console.log('Error:', error);
-    });
+        })
+        .catch(error => {
+            console.log('Error:', error);
+        });
+    fetch('https://api64.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            console.log("IPv6:", data.ip);
+            // res.json({ ip: data.ip })
+        })
+        .catch(error => {
+            console.log('Error:', error);
+        });
 });
 // app.get('/', (req, res) => {
 //     res.sendFile(join(__dirname, 'public', 'index.html'));
