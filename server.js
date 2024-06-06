@@ -1,7 +1,11 @@
 const express = require('express');
+const { join } = require('node:path');
+const server = require('http');
+const { Server } = require('socket.io');
 const requestIp = require('request-ip');
 
 const app = express();
+app.use(express.static(join(__dirname, 'build')));
 
 app.use(requestIp.mw());
 
