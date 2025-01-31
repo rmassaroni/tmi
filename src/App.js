@@ -6,7 +6,8 @@ import axios from 'axios';
 function App() {
     const [ip, setIp] = useState('');
     useEffect(() => {
-        axios.get('/get-ip')
+        // axios.get('/get-ip')
+        axios.get('https://api64.ipify.org?format=json')
             .then(response => {
                 setIp(response.data.ip);
             })
@@ -18,7 +19,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
-                <p1>ip: {ip}</p1>
+                <p>ip: {ip}</p>
                 <p>
                     Edit <code>src/App.js</code> and save to reload.
                 </p>
