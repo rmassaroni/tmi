@@ -3,9 +3,11 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PrivacyCheck from "./PrivacyCheck";
+import Data from "./data/Data";
+import IP from "./data/IP";
 
-// function App() {
 const App: React.FC = () => {
+    const ip = IP();
     return (
         <div className="App">
             <div className="Header">
@@ -15,6 +17,8 @@ const App: React.FC = () => {
              <header>
                  <PrivacyCheck />
              </header>
+            <p>{ip.name}</p>
+            <p>{ip.value}</p>
         </div>
     );
 }
