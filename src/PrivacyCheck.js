@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Bowser from "bowser";
+const browser = Bowser.getParser(navigator.userAgent);
+console.log(browser.getBrowserName(), browser.getOS());
+
 
 const PrivacyCheck = () => {
   const [data, setData] = useState({
@@ -20,6 +24,8 @@ const PrivacyCheck = () => {
   });
 
   useEffect(() => {
+        navigator.userAgentData.getHighEntropyValues(["platform", "architecture", "model", "uaFullVersion"])
+    .then(data => console.log(data));
     axios.get("https://ipapi.co/json/")
       .then(response => {
         const { ip, org, country_name, city, region } = response.data;
@@ -105,4 +111,132 @@ const PrivacyCheck = () => {
 };
 
 export default PrivacyCheck;
+
+
+
+
+
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import Bowser from "bowser";
+//
+// interface PrivacyData {
+//   ip: string;
+//   isp: string;
+//   location: string;
+//   browser: string;
+//   os: string;
+//   screen: string;
+//   timezone: string;
+//   battery: string;
+//   cpuCores: number | string;
+//   gpu: string;
+//   vpnStatus: string;
+//   webRTC: string;
+//   privateMode: string;
+//   adBlocker: string;
+// }
+//
+// const browser = Bowser.getParser(navigator.userAgent);
+// console.log(browser.getBrowserName(), browser.getOS());
+//
+// const PrivacyCheck: React.FC = () => {
+//   const [data, setData] = useState<PrivacyData>({
+//     ip: "Fetching...",
+//     isp: "Fetching...",
+//     location: "Fetching...",
+//     browser: navigator.userAgent,
+//     os: `${navigator.platform} (${navigator.userAgent})`,
+//     screen: `${window.screen.width}x${window.screen.height}`,
+//     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+//     battery: "Fetching...",
+//     cpuCores: navigator.hardwareConcurrency || "Unknown",
+//     gpu: "Fetching...",
+//     vpnStatus: "Unknown",
+//     webRTC: "Fetching...",
+//     privateMode: "Unknown",
+//     adBlocker: "Checking...",
+//   });
+//
+//   useEffect(() => {
+//     if (navigator.userAgentData) {
+//       navigator.userAgentData
+//         .getHighEntropyValues(["platform", "architecture", "model", "uaFullVersion"])
+//         .then(info => console.log(info));
+//     }
+//
+//     axios.get("https://ipapi.co/json/")
+//       .then(response => {
+//         const { ip, org, country_name, city, region } = response.data;
+//         setData(prev => ({
+//           ...prev,
+//           ip,
+//           isp: org || "Unknown ISP",
+//           location: `${city}, ${region}, ${country_name}`,
+//           vpnStatus: org?.toLowerCase().includes("vpn") ? "✅ Protected (VPN Detected)" : "Exposed",
+//         }));
+//       })
+//       .catch(() => setData(prev => ({ ...prev, ip: "❌ Blocked", isp: "❌ Blocked", location: "❌ Blocked" })));
+//
+//     const rtc = new RTCPeerConnection({ iceServers: [] });
+//     rtc.createDataChannel("");
+//     rtc.createOffer().then(o => rtc.setLocalDescription(o));
+//     rtc.onicecandidate = event => {
+//       if (event?.candidate?.candidate.includes("typ host")) {
+//         setData(prev => ({ ...prev, webRTC: "❌ Local IP Leak" }));
+//       } else {
+//         setData(prev => ({ ...prev, webRTC: "✅ Safe" }));
+//       }
+//     };
+//
+//     if (navigator.getBattery) {
+//       navigator.getBattery().then(battery => {
+//         setData(prev => ({ ...prev, battery: `${Math.round(battery.level * 100)}%` }));
+//       });
+//     } else {
+//       setData(prev => ({ ...prev, battery: "Unavailable" }));
+//     }
+//
+//     const fs = window.requestFileSystem || window.webkitRequestFileSystem;
+//     if (fs) {
+//       fs(window.TEMPORARY, 100, () => setData(prev => ({ ...prev, privateMode: "No" })), () => setData(prev => ({ ...prev, privateMode: "✅ Yes (Incognito Mode)" })));
+//     }
+//
+//     const ad = document.createElement("div");
+//     ad.innerHTML = "&nbsp;";
+//     ad.className = "adsbox";
+//     document.body.appendChild(ad);
+//     setTimeout(() => {
+//       if (ad.offsetHeight === 0) {
+//         setData(prev => ({ ...prev, adBlocker: "✅ Enabled" }));
+//       } else {
+//         setData(prev => ({ ...prev, adBlocker: "Disabled" }));
+//       }
+//       document.body.removeChild(ad);
+//     }, 100);
+//
+//     const canvas = document.createElement("canvas");
+//     const gl = canvas.getContext("webgl");
+//     if (gl) {
+//       const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+//       setData(prev => ({
+//         ...prev,
+//         gpu: debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Unknown GPU",
+//       }));
+//     }
+//   }, []);
+//
+//   return (
+//     <div style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
+//       <h2>🔍 Privacy Check</h2>
+//       <ul style={{ listStyleType: "none", padding: 0, textAlign: "left" }}>
+//         {Object.entries(data).map(([key, value]) => (
+//           <li key={key}><strong>{key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase())}:</strong> {value}</li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// };
+//
+// export default PrivacyCheck;
 
