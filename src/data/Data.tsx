@@ -7,7 +7,8 @@ const Data = (initialName: string = 'dataName', initialValue: string = 'finding.
 
     return {
         name,
-        value
+        value,
+        found: false
     };
 };
 

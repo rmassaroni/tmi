@@ -8,6 +8,7 @@ const TestAxios = () => {
         vpnStatus: "Unknown",
     });
 
+    console.log("Fetching IP from axios...");
     axios.get("https://ipapi.co/json/")
         .then(response => {
             const { ip, org, country_name, city, region } = response.data;
@@ -20,6 +21,9 @@ const TestAxios = () => {
             }));
         })
         .catch(() => setData(prev => ({ ...prev, ip: "❌ Blocked", isp: "❌ Blocked", location: "❌ Blocked" })));
+
+    console.log(data.ip);
+    console.log(data);
 
     return {
         ip: data.ip,

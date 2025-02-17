@@ -5,6 +5,7 @@ import axios from "axios";
 import TestAxios from '../tests/Axios';
 
 const IP = (): iData => {
+    console.log("Initializing IP...");
     const [value, setValue] = useState<string>("Fetching...");
 
     // axios.get("https://ipapi.co/json/")
@@ -19,7 +20,8 @@ const IP = (): iData => {
     return {
         // ...Data('IP', value),
         name: 'IP',
-        value: value
+        value: value,
+        found: false
     };
 };
 
