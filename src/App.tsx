@@ -5,31 +5,63 @@ import axios from 'axios';
 import PrivacyCheck from "./PrivacyCheck";
 import Data from "./data/Data";
 import IP from "./data/IP";
-// import TestNavigator from "./tests/Navigator";
-// import "./tests/Navigator";
 import data, { fetchData } from "./tests/Navigator";
+import { globalDataTable } from "./globalDataTable";
 
 const App: React.FC = () => {
-    // const ip = IP();
-    // const nav = TestNavigator();
-    // console.log("App Loaded. Navigator Data:", navigatorData);
-    const [navigatorData, setNavigatorData] = useState(data);
+    // const [navigatorData, setNavigatorData] = useState(globalDataTable);
+    //
+    // const handleFetchData = () => {
+    //     fetchData();
+    //     setNavigatorData({ ...navigatorData });
+    //
+    // };
 
-    // Function to handle fetching new data and updating state
+    const [tableData, setTableData] = useState(globalDataTable);
+    // useEffect(() => {
+    //     TestNavigator(); // Run the test script to populate the global data table
+    // }, []);
+    //
+    //    const handleRunTestAgain = () => {
+    //     TestNavigator(); // Run the test again to update the global data table
+    //     setTableData({ ...globalDataTable }); // Update the state to trigger re-render
+    // };
     const handleFetchData = () => {
-        fetchData(); // Re-run the script to fetch the data again
-        setNavigatorData({ ...navigatorData }); // Force state update to reflect changes
+        fetchData();
+        setTableData({ ...globalDataTable });
+
     };
+
     return (
         <div className="App">
             <div className="Header">
                 <img src={logo} className="App-logo" alt="logo" />
                 <h1>TMI</h1>
             </div>
-             <header>
+            <header>
                 <p>Run Count: {window.testNavigatorRunCount}</p>
                 <button onClick={handleFetchData}>Run Again</button>
-             </header>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data Name</th>
+                            <th>Data Value</th>
+                            <th>Time Retrieved</th>
+                            <th>Found</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Object.keys(tableData).map((key) => (
+                            <tr key={key}>
+                                <td>{key}</td>
+                                <td>{tableData[key].dataValue}</td>
+                                <td>{tableData[key].timeRetrieved}</td>
+                                <td>{tableData[key].found ? "✅" : "❌"}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </header>
 
         </div>
     );
